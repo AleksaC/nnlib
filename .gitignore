@@ -1,9 +1,12 @@
 *.pyc
 
+.coverage
+
 venv/
 *.egg-info
 build/
 dist/
+htmlcov/
 
 .cache
 .pytest_cache
