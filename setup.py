@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 from nnlib import __version__
 
@@ -19,7 +19,7 @@ setup(
     python_requires=">=3.4",
     install_requires=["numpy"],
     tests_require=["pytest"],
-    packages=["nnlib"],
+    packages=find_packages(),
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
