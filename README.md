@@ -90,7 +90,7 @@ For more examples check out the [examples folder](https://github.com/AleksaC/dld
 of this repo.
 
 ## Contact 🙋‍♂️
-If there's anything I can help you with you can find me at my personal [website](https://www.aleksac.me)
+If there's anything I can help you with you can find me at my personal [website](https://aleksac.me)
 where you can contact me directly or via social media linked there. If you
 liked this project you can follow me on twitter to stay up to date with my
 latest projects.
