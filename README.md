@@ -1,5 +1,5 @@
 # nnlib 
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/AleksaC/dldidact/blob/master/LICENSE)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/AleksaC/nnlib/blob/master/LICENSE)
 [![Build Status](https://travis-ci.com/AleksaC/nnlib.svg?branch=master)](https://travis-ci.com/AleksaC/nnlib)
 [![Coverage Status](https://coveralls.io/repos/github/AleksaC/nnlib/badge.svg?branch=master)](https://coveralls.io/github/AleksaC/nnlib?branch=master)
 
