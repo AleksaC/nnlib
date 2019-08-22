@@ -1,4 +1,13 @@
-"""nnlib configuration"""
+"""nnlib configuration
+
+Configuration is stored in a json file in a hidden directory in home folder.
+When the model is imported the configuration is loaded from the file if it
+exists otherwise the defaults are set and the file is created. If you want to
+change the config in runtime all you have to do is monkey-patch the parameter
+you want to change. If you want to make the changes permanent all you have to
+do is call the save method from this module after assigning the new values.
+"""
+
 import json
 import os
 
@@ -18,17 +27,19 @@ def _load_config():
         epsilon and base_dir
     """
     try:
-        with open(os.path.join(CONFIG_DIR, "config.json")) as f:
+        with open(os.path.join(_CONFIG_DIR, "config.json")) as f:
             config = json.load(f)
     except FileNotFoundError:
-        if not os.path.exists(CONFIG_DIR):
-            os.makedirs(CONFIG_DIR)
+        if not os.path.exists(_CONFIG_DIR):
+            os.makedirs(_CONFIG_DIR)
 
         config = {
-            "base_dir": CONFIG_DIR,
-            "epsilon": 1e-8
+            "base_dir": _CONFIG_DIR,
+            "epsilon": 1e-8,
+            "backend": 'numpy'
         }
-        with open(os.path.join(CONFIG_DIR, "config.json"), "w") as f:
+
+        with open(os.path.join(_CONFIG_DIR, "config.json"), "w") as f:
             json.dump(config, f)
 
     return config
@@ -37,10 +48,12 @@ def _load_config():
 def save():
     """Saves configuration modifications.
 
-    Configuration should be modified by importing this module
-    and then changing the value of the variable we want to
-    modify and calling this method to make changes permanent.
-    This should be done before importing any other nnlib modules.
+    Configuration is performed by monkey-patching the desired variable in this
+    module. Note that modifying the parameters from this module either temporarily
+    or permanently should be performed BEFORE importing other nnlib
+    modules as they may have already set some of their internal parameters to
+    the values from config. The usage of this function should be clear from
+    the following example.
 
     Examples:
         >>>from nnlib import config
