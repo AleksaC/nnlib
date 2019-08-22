@@ -12,7 +12,7 @@ import json
 import os
 
 
-CONFIG_DIR = os.path.join(os.path.expanduser("~"), ".nnlib")
+_CONFIG_DIR = os.path.join(os.path.expanduser("~"), ".nnlib")
 
 
 def _load_config():
@@ -70,3 +70,4 @@ def save():
 _config = _load_config()
 base_dir = _config["base_dir"]
 epsilon = _config["epsilon"]
+backend = _config["backend"]
