@@ -60,10 +60,11 @@ def save():
         >>>config.epsilon = 1e-10
         >>>config.save()
     """
-    with open(os.path.join(CONFIG_DIR, "config.json"), "w") as f:
+    with open(os.path.join(_CONFIG_DIR, "config.json"), "w") as f:
         json.dump({
             "base_dir": base_dir,
-            "epsilon": epsilon
+            "epsilon": epsilon,
+            "backend": backend
         }, f)
 
 
