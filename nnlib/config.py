@@ -13,6 +13,11 @@ import os
 
 
 _CONFIG_DIR = os.path.join(os.path.expanduser("~"), ".nnlib")
+_DEFAULT_CONFIG = {
+    "base_dir": _CONFIG_DIR,
+    "epsilon": 1e-8,
+    "backend": 'numpy'
+}
 
 
 def _load_config():
@@ -33,11 +38,7 @@ def _load_config():
         if not os.path.exists(_CONFIG_DIR):
             os.makedirs(_CONFIG_DIR)
 
-        config = {
-            "base_dir": _CONFIG_DIR,
-            "epsilon": 1e-8,
-            "backend": 'numpy'
-        }
+        config = _DEFAULT_CONFIG
 
         with open(os.path.join(_CONFIG_DIR, "config.json"), "w") as f:
             json.dump(config, f)
@@ -69,6 +70,6 @@ def save():
 
 
 _config = _load_config()
-base_dir = _config["base_dir"]
-epsilon = _config["epsilon"]
-backend = _config["backend"]
+base_dir = _config.get("base_dir", _DEFAULT_CONFIG.get("base_dir"))
+epsilon  = _config.get("epsilon", _DEFAULT_CONFIG.get("epsilon"))
+backend  = _config.get("backend", _DEFAULT_CONFIG.get("backend"))
