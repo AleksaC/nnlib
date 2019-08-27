@@ -145,6 +145,97 @@ def one_hot(y, num_classes):
     return np.eye(num_classes)[y]
 
 
+def train_test_split(instances, labels, train_size,
+                     shuffle=True, stratified=False, seed=None):
+    """Splits the dataset into training and testing sets.
+
+    Args:
+        instances:
+        labels:
+        train_size:
+        shuffle:
+        stratified:
+        seed:
+
+    Returns:
+        tuple of tuples, first tuple contains training data while the second
+        contains testing data - (x_train, y_train), (x_test, y_test)
+
+    """
+    if instances.shape[0] != labels.shape[0]:
+        raise ValueError("Arrays containing instances and labels don't have the "
+                         "same shape along the first axis!", instances, labels)
+
+    if isinstance(train_size, int):
+        if train_size > instances.shape[0]:
+            raise ValueError("`train_size` cannot be greater than the size of "
+                             "the entire dataset! ")
+        training_samples = train_size
+        train_size /= instances.shape[0]
+    elif isinstance(train_size, float):
+        if train_size < 0 or train_size > 1:
+            raise ValueError("`train_size` should be a float between 0 and 1 "
+                             "corresponding to percentage of the entire dataset "
+                             "to be used as a training set, or an int specifying "
+                             "exactly how many samples to be used in the training "
+                             "set. Got: {}")
+        training_samples = int(round(train_size * instances.shape[0]))
+    else:
+        raise TypeError("`train_size` should be a float between 0 and 1 "
+                        "corresponding to percentage of the entire dataset "
+                        "to be used as a training set, or an int specifying "
+                        "exactly how many samples to be used in the training "
+                        "set. Got: {}")
+
+    if seed is not None:
+        np.random.seed(seed)
+
+    if shuffle:
+        state = np.random.get_state()
+        np.random.shuffle(instances)
+        np.random.set_state(state)
+        np.random.shuffle(labels)
+
+    if not shuffle and stratified:
+        warn("shuffle is set to False while stratify is set to True. Stratified "
+             "split cannot be performed without shuffling the original arrays.")
+
+    if stratified:
+        classes, num_instances = np.unique(labels, return_counts=True)
+        counter = {
+            label: int(round(count * train_size))
+            for label, count in zip(classes, num_instances)
+        }
+        test_samples = instances.shape[0] - training_samples
+
+        train_instances = np.empty(shape=(training_samples,) + instances.shape[1:],
+                                   dtype=instances.dtype)
+        test_instances  = np.empty(shape=(test_samples,) + instances.shape[1:],
+                                   dtype=instances.dtype)
+        train_labels    = np.empty(shape=training_samples, dtype=labels.dtype)
+        test_labels     = np.empty(shape=test_samples, dtype=labels.dtype)
+
+        i, j = 0, 0
+
+        for instance, label in zip(instances, labels):
+            if counter[label] > 0:
+                train_instances[i] = instance
+                train_labels[i] = label
+                counter[label] -= 1
+                i += 1
+            else:
+                test_instances[j] = instance
+                test_labels[j] = label
+                j += 1
+    else:
+        train_instances = instances[:training_samples]
+        test_instances  = instances[training_samples:]
+        train_labels    = labels[:training_samples]
+        test_labels     = labels[training_samples:]
+
+    return (train_instances, train_labels), (test_instances, test_labels)
+
+
 class BatchGenerator:
     def __init__(self, x, y, batch_size):
         self.x = x
