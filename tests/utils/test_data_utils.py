@@ -2,7 +2,7 @@ import numpy as np
 from numpy.testing import assert_allclose
 
 from nnlib.utils.data_utils import (
-    one_hot,
+    one_hot_encoding,
     pad_with_zeros,
     shuffle_arrays,
     train_test_split
@@ -10,7 +10,20 @@ from nnlib.utils.data_utils import (
 
 
 def test_one_hot():
-    pass
+    x = np.arange(10)
+
+    assert (one_hot_encoding(x, 10, dtype="uint8") == np.identity(10, dtype="uint8")).all()
+
+    x = np.arange(10).reshape(5, 2)
+
+    expected = np.zeros(shape=(5, 2, 10), dtype="uint8")
+
+    for index, value in np.ndenumerate(x):
+        expected[index + (value,)] = 1
+
+    got = one_hot_encoding(x, dtype="uint8")
+
+    assert (one_hot_encoding(x, 10) == got).all()
 
 
 def test_shuffle_arrays():

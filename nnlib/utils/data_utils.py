@@ -131,18 +131,35 @@ def shuffle_arrays(*arrays, seed=None):
         np.random.shuffle(array)
 
 
-def one_hot(y, num_classes):
-    """Performs one-hot encoding of the labels.
+def one_hot_encoding(labels, num_classes=None, dtype="float32"):
+    """Performs one-hot encoding of the integer-encoded labels.
 
     Args:
-        y: tensor, labels
+        labels: tensor, integer-encoded from (0, num_classes) range
         num_classes: int, number of classes
+        dtype:
 
     Returns:
         tensor, one-hot encoded labels, has shape
         (num_labels, num_classes)
+
     """
-    return np.eye(num_classes)[y]
+    if num_classes is None:
+        num_classes = np.max(labels) + 1
+
+    if labels.ndim == 1:
+        return np.eye(num_classes, dtype=dtype)[labels]
+    else:
+        one_hot = np.zeros(shape=labels.shape + (num_classes,), dtype="uint8")
+
+        for index, value in np.ndenumerate(labels):
+            one_hot[index + (value,)] = 1
+
+        return one_hot
+
+
+def integer_encoding(labels, num_classes=None):
+    pass
 
 
 def train_test_split(instances, labels, train_size,
