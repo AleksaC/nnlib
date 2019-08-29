@@ -1,5 +1,5 @@
 # nnlib 
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/AleksaC/nnlib/blob/master/LICENSE)
+[![license](https://img.shields.io/github/license/AleksaC/nnlib.svg?maxAge=2592000)](https://github.com/AleksaC/nnlib/blob/master/LICENSE)
 [![Build Status](https://travis-ci.com/AleksaC/nnlib.svg?branch=master)](https://travis-ci.com/AleksaC/nnlib)
 [![Coverage Status](https://coveralls.io/repos/github/AleksaC/nnlib/badge.svg?branch=master)](https://coveralls.io/github/AleksaC/nnlib?branch=master)
 
@@ -86,7 +86,7 @@ model.train(*mnist.training_data(flat=True), batch_size=64, epochs=10)
 model.test(*mnist.test_data(flat=True), logging_level=1)
 ```
 
-For more examples check out the [examples folder](https://github.com/AleksaC/dldidact/tree/master/examples)
+For more examples check out the [examples folder](https://github.com/AleksaC/nnlib/tree/master/examples)
 of this repo.
 
 ## Contact 🙋‍♂️
